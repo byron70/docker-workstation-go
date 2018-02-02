@@ -47,7 +47,7 @@ RUN touch ~/.profile \
 
 RUN pip install awscli click rfc3987 downtoearth virtualenv virtualenvwrapper
 
-RUN wget https://releases.hashicorp.com/terraform/0.11.3/terraform_0.11.2_linux_amd64.zip && \
+RUN wget https://releases.hashicorp.com/terraform/0.11.3/terraform_0.11.3_linux_amd64.zip && \
         unzip -o terraform_*_linux_amd64.zip -d /usr/local/bin/ && \
 	rm terraform_*.zip
 
