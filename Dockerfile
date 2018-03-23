@@ -7,7 +7,8 @@ RUN set -eux
 RUN apk add --no-cache ca-certificates alpine-sdk docker \
         zip nmap nano tar openssl openssl-dev \
         bash bash-completion curl wget jq \
-        python3 python3-dev python2-dev libffi-dev libc-dev linux-headers openssh
+        python3 python3-dev python2-dev libffi-dev libc-dev linux-headers openssh \
+        bind-tools
 
 RUN wget https://bootstrap.pypa.io/get-pip.py && \
         python3 get-pip.py && \
@@ -47,7 +48,7 @@ RUN touch ~/.profile \
 
 RUN pip install awscli click rfc3987 downtoearth virtualenv virtualenvwrapper
 
-RUN wget https://releases.hashicorp.com/terraform/0.11.3/terraform_0.11.3_linux_amd64.zip && \
+RUN wget https://releases.hashicorp.com/terraform/0.11.5/terraform_0.11.5_linux_amd64.zip && \
         unzip -o terraform_*_linux_amd64.zip -d /usr/local/bin/ && \
 	rm terraform_*.zip
 
