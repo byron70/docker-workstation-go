@@ -47,10 +47,15 @@ RUN touch ~/.profile \
         && ln -s /usr/bin/python3 /usr/local/bin/python
 
 RUN pip install awscli click rfc3987 downtoearth virtualenv virtualenvwrapper
-
-RUN wget https://releases.hashicorp.com/terraform/0.11.5/terraform_0.11.5_linux_amd64.zip && \
-        unzip -o terraform_*_linux_amd64.zip -d /usr/local/bin/ && \
-	rm terraform_*.zip
+RUN pip install azure-cli
+RUN wget https://releases.hashicorp.com/packer/1.2.2/packer_1.2.2_linux_amd64.zip
+RUN wget https://releases.hashicorp.com/terraform/0.11.6/terraform_0.11.6_linux_amd64.zip
+RUN unzip -o packer_*_linux_amd64.zip -d /usr/local/bin/
+RUN unzip -o terraform_*_linux_amd64.zip -d /usr/local/bin/
+RUN rm packer_*.zip
+RUN rm terraform_*.zip
+RUN chmod +x /usr/local/bin/packer
+RUN chmod +x /usr/local/bin/terraform
 
 WORKDIR /root/
 
