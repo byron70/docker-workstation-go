@@ -23,8 +23,8 @@ RUN touch ~/.profile \
         && touch ~/.bashrc \
         && chmod 750 ~/.bashrc \
         && echo "export GOROOT=/usr/local/go" >> ~/.bashrc \
-        && echo "export GOPATH=/d/projects/go" >> ~/.bashrc \
-        && echo "export PATH=/d/projects/go/bin:/usr/local/go/bin:$PATH" >> ~/.bashrc \
+        && echo "export GOPATH=/f/projects/go" >> ~/.bashrc \
+        && echo "export PATH=/f/projects/go/bin:/usr/local/go/bin:$PATH" >> ~/.bashrc \
         && echo "cp -rf /root/ssh_temp /root/.ssh/" >> ~/.bashrc \
         && echo "chmod -R 600 /root/.ssh" >> ~/.bashrc \
         && echo "alias l='ls -CF'" >> ~/.bashrc \
@@ -37,7 +37,7 @@ RUN touch ~/.profile \
         && echo "       ssh-add" >> ~/.bashrc \
         && echo "fi" >> ~/.bashrc \
         && echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bashrc \
-        && echo "export PROJECT_HOME=/d/projects/go/src/gitlab.eng.cleardata.com" >> ~/.bashrc \
+        && echo "export PROJECT_HOME=/f/projects/go/src/gitlab.eng.cleardata.com" >> ~/.bashrc \
         && echo "source /usr/bin/virtualenvwrapper.sh" >> ~/.bashrc \
         && echo "" >> ~/.bashrc \
         && cat ~/.bashrc \
