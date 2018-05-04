@@ -40,15 +40,14 @@ RUN touch ~/.profile \
         && echo "export PROJECT_HOME=/f/projects/go/src/gitlab.eng.cleardata.com" >> ~/.bashrc \
         && echo "source /usr/bin/virtualenvwrapper.sh" >> ~/.bashrc \
         && echo "" >> ~/.bashrc \
-        && cat ~/.bashrc \
         && sed -i 's/\/root:\/bin\/ash/\/root:\/bin\/bash/g' /etc/passwd \
-        && cat /etc/passwd \
         && ln -s /usr/bin/pip3 /usr/local/bin/pip \
         && ln -s /usr/bin/python3 /usr/local/bin/python
 
 RUN pip install awscli click rfc3987 downtoearth virtualenv virtualenvwrapper
 RUN pip install azure-cli
 RUN pip install awsrequests
+
 RUN wget https://releases.hashicorp.com/packer/1.2.3/packer_1.2.3_linux_amd64.zip
 RUN wget https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip
 RUN unzip -o packer_*_linux_amd64.zip -d /usr/local/bin/
@@ -57,6 +56,8 @@ RUN rm packer_*.zip
 RUN rm terraform_*.zip
 RUN chmod +x /usr/local/bin/packer
 RUN chmod +x /usr/local/bin/terraform
+
+RUN wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 
 WORKDIR /root/
 
