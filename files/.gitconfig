@@ -1,0 +1,13 @@
+[core]
+	excludesfile =
+	ignorecase = false
+[user]
+	name = Byron Mann
+	email = byronosity@gmail.com
+[url "git@gitlab.eng.cleardata.com"]
+	insteadOf = http://gitlab.eng.cleardata.com
+[credential]
+	UseHttpPath = true
+	helper = !aws codecommit credential-helper --profile byron-phe-trust $@
+[alias]
+	cmp = "!f() { git add -A && git commit -m \"$@\" && git push; }; f"
