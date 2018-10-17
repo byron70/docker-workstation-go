@@ -13,6 +13,8 @@ RUN apk add --no-cache ca-certificates alpine-sdk docker \
         python3 python3-dev python2-dev libffi-dev libc-dev linux-headers openssh \
         bind-tools coreutils
 
+RUN apk add --no-cache nodejs nodejs-npm
+
 RUN wget https://bootstrap.pypa.io/get-pip.py && \
         python3 get-pip.py && \
         wget -O /usr/local/bin/aws-sudo https://raw.githubusercontent.com/cleardataeng/aws-sudo/master/aws-sudo.sh && \
