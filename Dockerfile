@@ -1,10 +1,10 @@
-FROM golang:1.8.3-alpine3.6
+FROM golang:alpine
 
 ENV PATH /usr/local/bin:$PATH
 ENV LANG C.UTF-8
 
-ARG TF_VERSION=0.11.8
-ARG PACKER_VERSION=1.3.1
+ARG TF_VERSION=0.11.10
+ARG PACKER_VERSION=1.3.2
 
 RUN set -eux
 RUN apk add --no-cache ca-certificates alpine-sdk docker \
@@ -33,6 +33,9 @@ RUN unzip -o packer_*_linux_amd64.zip -d /usr/local/bin/ \
         && rm terraform_*.zip \
         && chmod +x /usr/local/bin/packer \
         && chmod +x /usr/local/bin/terraform
+
+RUN wget https://repo.continuum.io/miniconda/Miniconda3-3.7.0-Linux-x86_64.sh -O ~/miniconda.sh \
+        && bash ~/miniconda.sh -b -p $HOME/miniconda
 
 COPY files/.profile /tmp/
 COPY files/.bashrc /tmp/
