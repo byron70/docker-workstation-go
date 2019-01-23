@@ -3,7 +3,7 @@ FROM golang:alpine
 ENV PATH /usr/local/bin:$PATH
 ENV LANG C.UTF-8
 
-ARG TF_VERSION=0.11.10
+ARG TF_VERSION=0.11.11
 ARG PACKER_VERSION=1.3.2
 
 RUN set -eux
