@@ -34,9 +34,6 @@ RUN unzip -o packer_*_linux_amd64.zip -d /usr/local/bin/ \
         && chmod +x /usr/local/bin/packer \
         && chmod +x /usr/local/bin/terraform
 
-RUN wget https://repo.continuum.io/miniconda/Miniconda3-3.7.0-Linux-x86_64.sh -O ~/miniconda.sh \
-        && bash ~/miniconda.sh -b -p $HOME/miniconda
-
 COPY files/.profile /tmp/
 COPY files/.bashrc /tmp/
 COPY files/.gitconfig /root/
