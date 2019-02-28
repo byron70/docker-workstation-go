@@ -1,55 +1,46 @@
-FROM golang:alpine
+FROM golang:alpine as go-source
+FROM hashicorp/terraform:latest as tf-source
+FROM hashicorp/packer:latest as pack-source
 
-ENV PATH /usr/local/bin:$PATH
+FROM frolvlad/alpine-miniconda3:python3.7
+
 ENV LANG C.UTF-8
-
-ARG TF_VERSION=0.11.11
-ARG PACKER_VERSION=1.3.2
+ENV GOPATH /go
+ENV GOROOT /usr/local/go
+ENV PATH $GOPATH/bin:$GOROOT/bin:$PATH
 
 RUN set -eux
+RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
+
 RUN apk add --no-cache ca-certificates alpine-sdk docker \
-        zip nmap nano tar openssl openssl-dev \
-        bash bash-completion curl wget jq \
-        python3 python3-dev python2-dev libffi-dev libc-dev linux-headers openssh \
-        bind-tools coreutils
+    zip nmap nano tar openssl openssl-dev \
+    bash bash-completion curl wget jq \
+    libffi-dev libc-dev linux-headers openssh \
+    bind-tools coreutils
 
-RUN apk add --no-cache nodejs nodejs-npm
+RUN pip install awscli click rfc3987 downtoearth  awsrequests
 
-RUN wget https://bootstrap.pypa.io/get-pip.py && \
-        python3 get-pip.py && \
-        wget -O /usr/local/bin/aws-sudo https://raw.githubusercontent.com/cleardataeng/aws-sudo/master/aws-sudo.sh && \
-        chmod +x /usr/local/bin/aws-sudo && \
-        pip install awscli click rfc3987 \
-                downtoearth virtualenv virtualenvwrapper \
-                azure-cli \
-                awsrequests
+RUN wget -O /usr/local/bin/aws-sudo https://raw.githubusercontent.com/cleardataeng/aws-sudo/master/aws-sudo.sh
+RUN chmod +x /usr/local/bin/aws-sudo
 
-RUN wget https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_amd64.zip \
-        && wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip
-
-RUN unzip -o packer_*_linux_amd64.zip -d /usr/local/bin/ \
-        && unzip -o terraform_*_linux_amd64.zip -d /usr/local/bin/ \
-        && rm packer_*.zip \
-        && rm terraform_*.zip \
-        && chmod +x /usr/local/bin/packer \
-        && chmod +x /usr/local/bin/terraform
-
+COPY --from=tf-source /bin/terraform /usr/local/bin/terraform
+COPY --from=pack-source /bin/packer /usr/local/bin/packer
+RUN mkdir -p /usr/local/go
+COPY --from=go-source /usr/local/go /usr/local/go
 COPY files/.profile /tmp/
 COPY files/.bashrc /tmp/
 COPY files/.gitconfig /root/
 
 RUN touch ~/.profile \
-        && touch ~/.bashrc \
-        && cat /tmp/.profile >> ~/.profile \
-        && cat /tmp/.bashrc >> ~/.bashrc \
-        && rm -rf /tmp/.profile /tmp/.bashrc \
-        && chmod 750 ~/.profile \
-        && chmod 750 ~/.bashrc \
-        && chmod 644 ~/.gitconfig \
-        && sed -i 's/\/root:\/bin\/ash/\/root:\/bin\/bash/g' /etc/passwd \
-        && ln -s /usr/bin/pip3 /usr/local/bin/pip \
-        && ln -s /usr/bin/python3 /usr/local/bin/python \
-        && cat ~/.profile ~/.bashrc
+    && touch ~/.bashrc \
+    && cat /tmp/.profile >> ~/.profile \
+    && cat /tmp/.bashrc >> ~/.bashrc \
+    && rm -rf /tmp/.profile /tmp/.bashrc \
+    && chmod 750 ~/.profile \
+    && chmod 750 ~/.bashrc \
+    && chmod 644 ~/.gitconfig \
+    && sed -i 's/\/root:\/bin\/ash/\/root:\/bin\/bash/g' /etc/passwd \
+    && cat ~/.profile ~/.bashrc
 
 RUN wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 

@@ -1,9 +1,7 @@
 
 # BEGIN FROM DOCKER
-export GOROOT=/usr/local/go
-export GOPATH=/f/projects/go
-export PATH=/f/projects/go/bin:/usr/local/go/bin:$PATH
-export PATH="$HOME/miniconda/bin:$PATH"
+export GOPATH=/d/projects/go
+export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 cp -rf /root/ssh_temp /root/.ssh/
 chmod -R 600 /root/.ssh
@@ -20,7 +18,6 @@ if [ -n '$SSH_AUTH_SOCK' ] ; then
 fi
 
 export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=/f/projects/go/src/gitlab.eng.cleardata.com
-
-source /usr/bin/virtualenvwrapper.sh
-source $HOME/miniconda/bin/activate
+export PROJECT_HOME=/d/projects/go/src/gitlab.eng.cleardata.com
+mkdir -p $WORKON_HOME
+conda config --add envs_dirs $WORKON_HOME
