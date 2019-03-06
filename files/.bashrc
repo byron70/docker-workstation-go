@@ -20,4 +20,5 @@ fi
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=/d/projects/go/src/gitlab.eng.cleardata.com
 mkdir -p $WORKON_HOME
+conda init bash
 conda config --add envs_dirs $WORKON_HOME
