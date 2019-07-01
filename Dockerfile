@@ -12,15 +12,15 @@ ENV PATH $GOPATH/bin:$GOROOT/bin:$PATH
 RUN set -eux
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 
-RUN echo '@edge http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories
-RUN echo '@edgecommunity http://nl.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories
-RUN echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories
+#RUN echo '@edge http://nl.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories
+#RUN echo '@edgecommunity http://nl.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories
+#RUN echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories
 
 RUN apk add --no-cache ca-certificates alpine-sdk docker \
     zip nmap nano tar openssl openssl-dev \
     bash bash-completion curl wget jq \
     libffi-dev libc-dev linux-headers openssh \
-    bind-tools coreutils kubernetes@testing
+    bind-tools coreutils
 
 RUN wget -O /usr/local/bin/aws-sudo https://raw.githubusercontent.com/cleardataeng/aws-sudo/master/aws-sudo.sh
 RUN chmod +x /usr/local/bin/aws-sudo
