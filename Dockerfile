@@ -20,7 +20,7 @@ RUN apk add --no-cache ca-certificates alpine-sdk docker \
     zip nmap nano tar openssl openssl-dev \
     bash bash-completion curl wget jq \
     libffi-dev libc-dev linux-headers openssh \
-    bind-tools coreutils
+    bind-tools coreutils groff
 
 RUN wget -O /usr/local/bin/aws-sudo https://raw.githubusercontent.com/cleardataeng/aws-sudo/master/aws-sudo.sh
 RUN chmod +x /usr/local/bin/aws-sudo
