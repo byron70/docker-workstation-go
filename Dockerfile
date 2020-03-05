@@ -46,8 +46,9 @@ RUN touch ~/.profile \
 
 RUN wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 
-RUN conda init bash
-RUN pip install awscli click rfc3987 downtoearth awsrequests tox-conda
+RUN conda init bash && \ 
+    conda activate base &&  \
+    pip install awscli click rfc3987 downtoearth awsrequests tox-conda
 RUN conda update -y -n base -c defaults conda
 
 WORKDIR /root/
