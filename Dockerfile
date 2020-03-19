@@ -41,19 +41,19 @@ RUN touch ~/.profile \
     && chmod 750 ~/.profile \
     && chmod 750 ~/.bashrc \
     && chmod 644 ~/.gitconfig \
-    && sed -i 's/\/root:\/bin\/ash/\/root:\/bin\/bash/g' /etc/passwd \
-    && cat ~/.profile ~/.bashrc
+    && sed -i 's/\/root:\/bin\/ash/\/root:\/bin\/bash/g' /etc/passwd
 
 RUN wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 
 SHELL ["/bin/bash", "-c"]
 
-RUN pip install click rfc3987 downtoearth awsrequests tox-conda
+RUN conda init bash
 RUN conda update -y -n base -c defaults conda
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && \
     ./aws/install && \
-    rm -rf ./aws awscliv2.zip
+    rm -rf ./aws awscliv2.zip && \
+    echo "complete -C aws_completer aws" >> ~/.bashrc
 
 WORKDIR /root/
 
