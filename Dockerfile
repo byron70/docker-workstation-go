@@ -1,5 +1,5 @@
 FROM golang:alpine as go-source
-FROM hashicorp/terraform:0.12.19 as tf-source
+FROM hashicorp/terraform:0.12.23 as tf-source
 FROM hashicorp/packer:latest as pack-source
 
 FROM frolvlad/alpine-miniconda3:python3.7
@@ -48,8 +48,12 @@ RUN wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.
 
 RUN conda init bash && \ 
     conda activate base &&  \
-    pip install awscli click rfc3987 downtoearth awsrequests tox-conda
+    pip install click rfc3987 downtoearth awsrequests tox-conda
 RUN conda update -y -n base -c defaults conda
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    ./aws/install && \
+    rm -rm ./aws awscliv2.zip
 
 WORKDIR /root/
 
