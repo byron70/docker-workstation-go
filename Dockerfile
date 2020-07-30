@@ -1,5 +1,5 @@
 FROM golang:alpine as go-source
-FROM hashicorp/terraform:0.12.24 as tf-source
+FROM hashicorp/terraform:0.12.26 as tf-source
 FROM hashicorp/packer:latest as pack-source
 
 FROM frolvlad/alpine-miniconda3:python3.7
